@@ -15,15 +15,16 @@ $(call inherit-product, vendor/twrp/config/common.mk)
 # Inherit from r8q device
 $(call inherit-product, device/samsung/r8q/device.mk)
 
-# Charger
-PRODUCT_PACKAGES += \
-    charger_res_images
 
 PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/samsung/r8q/recovery/root,recovery/root)
 
+# 设备名
 PRODUCT_DEVICE := r8q
+# 产品名
 PRODUCT_NAME := twrp_r8q
+# 品牌名
 PRODUCT_BRAND := samsung
+# 设备型号
 PRODUCT_MODEL := SM-G7810
 PRODUCT_MANUFACTURER := samsung
 

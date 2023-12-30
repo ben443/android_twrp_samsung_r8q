@@ -42,23 +42,28 @@ TARGET_SCREEN_DENSITY := 480
 
 # Kernel
 BOARD_BOOTIMG_HEADER_VERSION := 2
+# 内核在启动镜像中的基址
 BOARD_KERNEL_BASE := 0x00000000
+# 内核的运行参数
 BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 swiotlb=2048 printk.devkmsg=on firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
+# 内核的页面大小
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_RAMDISK_OFFSET := 0x02000000
 BOARD_KERNEL_TAGS_OFFSET := 0x01e00000
+# 需要传递给mkbootimg工具的参数
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
+# 指定内核镜像名
 BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_KERNEL_SEPARATED_DTBO := true
-TARGET_KERNEL_CONFIG := r8q_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/r8q
+
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
+# 指定预编译内核的路径
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
@@ -88,9 +93,13 @@ QCOM_BOARD_PLATFORMS += kona
 
 # Recovery
 BOARD_INCLUDE_RECOVERY_DTBO := true
+# 指定Recovery显示的像素格式，设置不当会引起花屏、黑屏等故障
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
+# 在Recovery中，确定SD卡位于data分区
+RECOVERY_SDCARD_ON_DATA := true
+TARGET_RECOVERY_QCOM_RTC_FIX := true
 
 # Security patch level
 VENDOR_SECURITY_PATCH := 2021-08-01
@@ -109,23 +118,31 @@ VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
 
 # Crypto
+# 指定TWRP是否包含加密组件，并启用加密解密功能
 TW_INCLUDE_CRYPTO := false
 TW_INCLUDE_CRYPTO_FBE := false
-TW_INCLUDE_FBE_METADATA := true
+TW_INCLUDE_FBE_METADATA_DECRYPT := false
+BOARD_USES_METADATA_PARTITION := true
+
 
 
 # TWRP Configuration
+# 指定TWRP主题
 TW_THEME := portrait_hdpi
+# 指定是否增加额外的语言
 TW_EXTRA_LANGUAGES := true
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
+# 指定亮度路径，TWRP访问他以更改屏幕亮度
 TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
 TW_DEVICE_VERSION := VirtualCC
 TW_DEFAULT_LANGUAGE := zh_CN
-RECOVERY_SDCARD_ON_DATA := true
 TW_MAX_BRIGHTNESS := 486
 TW_DEFAULT_BRIGHTNESS := 255
-TARGET_RECOVERY_QCOM_RTC_FIX := true
 TW_Y_OFFSET := 100
 TW_H_OFFSET := -100
+# 指定电池路径，TWRP访问他以显示电池电量
+TW_CUSTOM_BATTERY_PATH := "/sys/class/power_supply/battery"
+# 指定是否包含NTFS-3G模块，以支持NTFS分区
+TW_INCLUDE_NTFS_3G := true
