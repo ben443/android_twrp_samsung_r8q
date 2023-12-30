@@ -15,6 +15,12 @@ $(call inherit-product, vendor/twrp/config/common.mk)
 # Inherit from r8q device
 $(call inherit-product, device/samsung/r8q/device.mk)
 
+# Charger
+PRODUCT_PACKAGES += \
+    charger_res_images
+
+PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/samsung/r8q/recovery/root,recovery/root)
+
 PRODUCT_DEVICE := r8q
 PRODUCT_NAME := twrp_r8q
 PRODUCT_BRAND := samsung
