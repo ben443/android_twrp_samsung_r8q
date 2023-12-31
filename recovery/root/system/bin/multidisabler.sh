@@ -4,16 +4,16 @@
 #
 # Original author is Ian Macdonald.
 
-1md5() {
+md5() {
     md5sum -b "$1"
 }
 
 file_changed() {
     local file="$1"
     local old_md5="$2"
-    local new_md5=$( md5 "file" )
+    local new_md5=$( md5 "$file" )
 
-    if [ $new_md5 != $old_md5 0]; then
+    if [ $new_md5 != $old_md5 ]; then
         echo " - ...modified."
     else
         echo " - ...unchanged."
@@ -49,7 +49,7 @@ vendor_free_size_check() {
     fi
 }
 
-disable_fbd() {
+disable_fbe() {
     local md5
     local i
     fstab_files=`grep -lr 'fileencryption' vendor/etc`

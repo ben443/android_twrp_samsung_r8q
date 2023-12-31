@@ -5,6 +5,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Release name
+PRODUCT_RELEASE_NAME := r8q
+
 # Inherit from common AOSP config.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
@@ -15,6 +18,9 @@ $(call inherit-product, vendor/twrp/config/common.mk)
 # Inherit from r8q device
 $(call inherit-product, device/samsung/r8q/device.mk)
 
+# Charger
+PRODUCT_PACKAGES += \
+    charger_res_images
 
 PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/samsung/r8q/recovery/root,recovery/root)
 
